@@ -1,0 +1,25 @@
+services:
+  backend:
+    user: root
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/backend
+      - ./backend/data/web/static:/backend/data/web/static
+      - ./backend/data/web/media:/backend/data/web/media
+    ports:
+      - "8005:8005"
+    env_file:
+      - ./backend/dotenv_files/.env
+    depends_on:
+      - db
+
+  db:
+    image: postgres:14-alpine
+    ports:
+      - "5436:5432"
+    volumes:
+      - ./backend/data/postgres/data:/var/lib/postgresql/data
+    env_file:
+      - ./backend/dotenv_files/.env
