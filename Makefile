@@ -53,12 +53,6 @@ init:
 	@echo "Subindo containers com Docker..."
 	$(DOCKER_COMPOSE) up -d --build
 
-	@echo "Aplicando migrations..."
-	$(MANAGE) migrate
-
-	@echo "Coletando arquivos estaticos..."
-	$(MANAGE) collectstatic --noinput
-
 	@echo "Carregando dados no banco..."
 	make setup-db
 
