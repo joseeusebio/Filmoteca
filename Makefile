@@ -10,6 +10,12 @@ up:
 down:
 	$(DOCKER_COMPOSE) down
 
+clean:
+	@echo "Parando e removendo containers, volumes e dados locais..."
+	docker compose down -v
+	rm -rf backend/data
+	@echo "Limpeza completa do projeto."
+
 shell:
 	$(DOCKER_COMPOSE) exec backend sh
 
@@ -44,26 +50,19 @@ generate-secret:
 	@python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
 
 init:
-	@if [ ! -f $(ENV_PATH) ]; then \
-		cp $(ENV_EXAMPLE_PATH) $(ENV_PATH); \
-		echo "✔️ Copiado .env.example para .env"; \
-	else \
-		echo "ℹ️ .env já existe, mantendo o arquivo atual."; \
-	fi
-	@SECRET_KEY=`make generate-secret` && \
-	if grep -q "^SECRET_KEY=" $(ENV_PATH); then \
-		sed -i.bak "s/^SECRET_KEY=.*/SECRET_KEY=$$SECRET_KEY/" $(ENV_PATH); \
-	else \
-		echo "SECRET_KEY=$$SECRET_KEY" >> $(ENV_PATH); \
-	fi && \
-	echo "🔐 SECRET_KEY atualizada em $(ENV_PATH)"
-	@echo "🚀 Subindo containers com Docker..."
+	@echo "Subindo containers com Docker..."
 	$(DOCKER_COMPOSE) up -d --build
-	@echo "📦 Aplicando migrations..."
+
+	@echo "Aplicando migrations..."
 	$(MANAGE) migrate
-	@echo "🧱 Coletando arquivos estáticos..."
+
+	@echo "Coletando arquivos estaticos..."
 	$(MANAGE) collectstatic --noinput
-	@echo "🎬 Carregando dados no banco..."
+
+	@echo "Carregando dados no banco..."
 	make setup-db
-	@echo "📋 Logs do backend:"
+
+	@echo "Logs do backend:"
 	$(DOCKER_COMPOSE) logs -f backend
+
+

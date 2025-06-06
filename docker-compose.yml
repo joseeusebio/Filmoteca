@@ -6,7 +6,6 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./backend:/backend
-      - ./backend/data/web/static:/backend/data/web/static
       - ./backend/data/web/media:/backend/data/web/media
     ports:
       - "8005:8005"
