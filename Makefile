@@ -56,7 +56,4 @@ init:
 	@echo "Carregando dados no banco..."
 	make setup-db
 
-	@echo "Logs do backend:"
-	$(DOCKER_COMPOSE) logs -f backend
-
 
