@@ -28,13 +28,34 @@ class KeywordSerializer(serializers.ModelSerializer):
         model = Keyword
         fields = ['id', 'name']
 
-class MovieSerializer(serializers.ModelSerializer):
-    genres = GenreSerializer(many=True, read_only=True)
-    production_companies = ProductionCompanySerializer(many=True, read_only=True)
-    production_countries = ProductionCountrySerializer(many=True, read_only=True)
-    spoken_languages = SpokenLanguageSerializer(many=True, read_only=True)
-    keywords = KeywordSerializer(many=True, read_only=True)
+class MovieListSerializer(serializers.ModelSerializer):
+    genres = serializers.StringRelatedField(many=True)
+    poster_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Movie
+        fields = [
+            'id', 'title', 'original_title', 'vote_average',
+            'release_date', 'popularity', 'genres', 'poster_url'
+        ]
+
+    @staticmethod
+    def get_poster_url(obj):
+        return obj.poster_url
+
+class MovieDetailSerializer(serializers.ModelSerializer):
+    genres = serializers.StringRelatedField(many=True)
+    production_companies = serializers.StringRelatedField(many=True)
+    production_countries = serializers.StringRelatedField(many=True)
+    spoken_languages = serializers.StringRelatedField(many=True)
+    keywords = serializers.StringRelatedField(many=True)
+    backdrop_url = serializers.SerializerMethodField()
 
     class Meta:
         model = Movie
         fields = '__all__'
+        read_only_fields = ['id']
+
+    @staticmethod
+    def get_backdrop_url(obj):
+        return obj.backdrop_url

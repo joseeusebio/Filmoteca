@@ -10,6 +10,10 @@ up:
 down:
 	$(DOCKER_COMPOSE) down
 
+restart-backend:
+	@echo "Reiniciando o container do backend..."
+	docker compose restart backend
+
 clean:
 	@echo "Parando e removendo containers, volumes e dados locais..."
 	docker compose down -v

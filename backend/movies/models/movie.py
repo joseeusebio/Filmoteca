@@ -1,4 +1,5 @@
 from django.db import models
+from movies.managers.movie_manager import MovieManager
 
 class Genre(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -76,9 +77,22 @@ class Movie(models.Model):
     production_countries = models.ManyToManyField(ProductionCountry)
     spoken_languages = models.ManyToManyField(SpokenLanguage)
     keywords = models.ManyToManyField(Keyword)
+    objects = MovieManager()
 
     class Meta:
         db_table = "movie"
 
     def __str__(self):
         return self.title
+
+    @property
+    def poster_url(self):
+        if self.poster_path:
+            return f"https://image.tmdb.org/t/p/w342{self.poster_path}"
+        return None
+
+    @property
+    def backdrop_url(self):
+        if self.backdrop_path:
+            return f"https://image.tmdb.org/t/p/w780{self.backdrop_path}"
+        return None
