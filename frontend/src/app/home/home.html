@@ -1,0 +1,50 @@
+<div class="header">
+  <h1>🎬 Filmoteca</h1>
+</div>
+
+<div class="content-scroll">
+  <div class="movie-list">
+    <mat-card *ngFor="let movie of movies" class="movie-card">
+      <img mat-card-image [src]="movie.poster_url" [alt]="movie.title" />
+      <mat-card-title>{{ movie.title }}</mat-card-title>
+
+      <mat-card-content>
+        <div class="info">
+          <mat-icon>calendar_today</mat-icon>
+          <span>{{ movie.release_date | date }}</span>
+        </div>
+
+        <div class="info">
+          <mat-icon>star</mat-icon>
+          <span>Nota: {{ movie.vote_average }}</span>
+        </div>
+
+        <div class="info">
+          <mat-icon>whatshot</mat-icon>
+          <span>Popularidade: {{ movie.popularity | number:'1.0-0' }}</span>
+        </div>
+
+        <div class="genres">
+          <mat-chip *ngFor="let genre of movie.genres" color="primary" selected>
+            {{ genre }}
+          </mat-chip>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="navigation-buttons" *ngIf="!isLoading">
+    <button mat-icon-button color="primary" (click)="loadPage(previousUrl)" [disabled]="!previousUrl">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    <button mat-icon-button color="primary" (click)="loadPage(nextUrl)" [disabled]="!nextUrl">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+
+  <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
+</div>
+
+<button class="scroll-top" mat-fab (click)="scrollToTop()" aria-label="Topo">
+  <mat-icon>keyboard_arrow_up</mat-icon>
+</button>

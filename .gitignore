@@ -205,3 +205,16 @@ backend/data/postgres/data/
 
 # Ignora todos os arquivos dentro da pasta backend/data, exceto se quiser fazer exceções depois
 backend/data/*
+
+# Angular / Node frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/.angular-cache/
+frontend/.env
+frontend/.env.local
+frontend/.DS_Store
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/.vscode/

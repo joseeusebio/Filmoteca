@@ -10,9 +10,22 @@ up:
 down:
 	$(DOCKER_COMPOSE) down
 
-restart-backend:
-	@echo "Reiniciando o container do backend..."
-	docker compose restart backend
+start:
+	@echo "Iniciando os containers existentes..."
+	docker compose start
+
+build-backend:
+	@echo "Rebuildando backend e iniciando servico..."
+	docker compose build --no-cache backend
+	docker compose up -d backend
+
+build-frontend:
+	@echo "Rebuildando frontend e iniciando servico..."
+	docker compose build --no-cache frontend
+	docker compose up -d frontend
+
+dev-frontend:
+	docker compose up -d frontend-dev
 
 clean:
 	@echo "Parando e removendo containers, volumes e dados locais..."

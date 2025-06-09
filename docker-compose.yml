@@ -23,3 +23,17 @@ services:
       - ./backend/data/postgres/data:/var/lib/postgresql/data
     env_file:
       - ./backend/dotenv_files/.env
+
+  frontend-dev:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: frontend-dev
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "4200:4200"
+    command: npm run start
+    depends_on:
+      - backend
