@@ -3,9 +3,10 @@ from movies.models import Movie, Genre, ProductionCompany, ProductionCountry, Sp
 
 
 class MovieFilter(filters.FilterSet):
-    title = filters.CharFilter(field_name="title", lookup_expr="icontains")
+    title = filters.CharFilter(field_name="title", lookup_expr="istartswith")
     vote_average_min = filters.NumberFilter(field_name="vote_average", lookup_expr="gte")
     vote_average_max = filters.NumberFilter(field_name="vote_average", lookup_expr="lte")
+    release_date__year = filters.NumberFilter(field_name="release_date", lookup_expr="year")
     genres = filters.ModelMultipleChoiceFilter(
         field_name="genres__name",
         to_field_name="name",

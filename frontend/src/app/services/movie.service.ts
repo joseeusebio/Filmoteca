@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -10,13 +10,11 @@ export class MovieService {
 
   constructor(private http: HttpClient) {}
 
-  getMovies(cursor?: string): Observable<any> {
-    let params = new HttpParams();
-
-    if (cursor !== undefined) {
-      params = params.set('cursor', cursor);
-    }
-
+  getMoviesWithParams(params: any): Observable<any> {
     return this.http.get<any>(this.apiUrl, { params });
+  }
+
+  getFormOptions(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}form-options/`);
   }
 }

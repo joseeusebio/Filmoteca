@@ -1,3 +1,3 @@
-from .movie_serializer import MovieListSerializer, MovieDetailSerializer
+from .movie_serializer import MovieListSerializer, MovieDetailSerializer, FormOptionsSerializer
 
-__all__ = ['MovieListSerializer', 'MovieDetailSerializer']
+__all__ = ['MovieListSerializer', 'MovieDetailSerializer','FormOptionsSerializer']

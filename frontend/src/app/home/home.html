@@ -1,50 +1,222 @@
-<div class="header">
-  <h1>🎬 Filmoteca</h1>
-</div>
+<div class="home-container">
+  <div class="header-row">
+    <h1 class="title-link" (click)="resetToHome()">🎬 Filmoteca</h1>
+    <mat-form-field appearance="outline" class="filter-title-field">
+      <mat-icon matPrefix>search</mat-icon>
+      <input
+        matInput
+        type="text"
+        [(ngModel)]="filters.title"
+        (keyup.enter)="onFilterChange()"
+        placeholder="Buscar título..."
+      />
+    </mat-form-field>
+  </div>
 
-<div class="content-scroll">
-  <div class="movie-list">
-    <mat-card *ngFor="let movie of movies" class="movie-card">
-      <img mat-card-image [src]="movie.poster_url" [alt]="movie.title" />
-      <mat-card-title>{{ movie.title }}</mat-card-title>
-
-      <mat-card-content>
-        <div class="info">
-          <mat-icon>calendar_today</mat-icon>
-          <span>{{ movie.release_date | date }}</span>
-        </div>
-
-        <div class="info">
-          <mat-icon>star</mat-icon>
-          <span>Nota: {{ movie.vote_average }}</span>
-        </div>
-
-        <div class="info">
-          <mat-icon>whatshot</mat-icon>
-          <span>Popularidade: {{ movie.popularity | number:'1.0-0' }}</span>
-        </div>
-
-        <div class="genres">
-          <mat-chip *ngFor="let genre of movie.genres" color="primary" selected>
+  <div class="filters" *ngIf="formOptions.genres">
+    <div class="filter-field">
+      <mat-form-field appearance="outline">
+        <mat-label>Gêneros</mat-label>
+        <mat-select
+          multiple
+          [(ngModel)]="filters.genres"
+          (selectionChange)="onFilterChange()"
+        >
+          <mat-option *ngFor="let genre of formOptions.genres" [value]="genre">
             {{ genre }}
-          </mat-chip>
-        </div>
-      </mat-card-content>
-    </mat-card>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="filter-field">
+      <mat-form-field appearance="outline">
+        <mat-label>Ano de Lançamento</mat-label>
+        <mat-select
+          [(ngModel)]="filters.release_date__year"
+          (selectionChange)="onFilterChange()"
+        >
+          <mat-option *ngFor="let year of formOptions.years" [value]="year">
+            {{ year }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="filter-field">
+      <mat-form-field appearance="outline">
+        <mat-label>Países</mat-label>
+        <mat-select
+          multiple
+          [(ngModel)]="filters.production_countries"
+          (selectionChange)="onFilterChange()"
+          (openedChange)="filterCountries()"
+        >
+          <mat-option disabled>
+            <input
+              type="text"
+              [(ngModel)]="countrySearch"
+              (ngModelChange)="filterCountries()"
+              placeholder="Buscar país..."
+              matInput
+              style="width: 100%; padding: 6px"
+            />
+          </mat-option>
+          <mat-option
+            *ngFor="let country of filteredCountries"
+            [value]="country"
+          >
+            {{ country }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="filter-field">
+      <mat-form-field appearance="outline">
+        <mat-label>Idiomas</mat-label>
+        <mat-select
+          multiple
+          [(ngModel)]="filters.spoken_languages"
+          (selectionChange)="onFilterChange()"
+          (openedChange)="filterLanguages()"
+        >
+          <mat-option disabled>
+            <input
+              type="text"
+              [(ngModel)]="languageSearch"
+              (ngModelChange)="filterLanguages()"
+              placeholder="Buscar idioma..."
+              matInput
+              style="width: 100%; padding: 6px"
+            />
+          </mat-option>
+          <mat-option *ngFor="let lang of filteredLanguages" [value]="lang">
+            {{ lang }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="filter-actions">
+      <button mat-stroked-button color="warn" (click)="clearFilters()">
+        Limpar filtros
+      </button>
+    </div>
   </div>
 
-  <div class="navigation-buttons" *ngIf="!isLoading">
-    <button mat-icon-button color="primary" (click)="loadPage(previousUrl)" [disabled]="!previousUrl">
-      <mat-icon>chevron_left</mat-icon>
-    </button>
-    <button mat-icon-button color="primary" (click)="loadPage(nextUrl)" [disabled]="!nextUrl">
-      <mat-icon>chevron_right</mat-icon>
-    </button>
+  <div class="content-scroll">
+    <div
+      class="navigation-buttons top-pagination"
+      *ngIf="!isLoading && totalPages > 1"
+    >
+      <button
+        mat-icon-button
+        (click)="goToFirst()"
+        [disabled]="currentPage === 1"
+      >
+        <mat-icon>first_page</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        (click)="goToPrevious()"
+        [disabled]="currentPage === 1"
+      >
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      <button
+        mat-stroked-button
+        class="page-btn"
+        *ngFor="let page of getPages()"
+        [color]="page === currentPage ? 'accent' : undefined"
+        (click)="goToPage(page)"
+      >
+        {{ page }}
+      </button>
+      <button
+        mat-icon-button
+        (click)="goToNext()"
+        [disabled]="currentPage === totalPages"
+      >
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+    </div>
+
+    <div class="movie-list">
+      <mat-card *ngFor="let movie of movies" class="movie-card">
+        <img mat-card-image [src]="movie.poster_url" [alt]="movie.title" />
+        <mat-card-title>{{ movie.title }}</mat-card-title>
+        <mat-card-content>
+          <div class="info">
+            <mat-icon>calendar_today</mat-icon>
+            <span>{{ movie.release_date | date }}</span>
+          </div>
+          <div class="info">
+            <mat-icon>star</mat-icon>
+            <span>Nota: {{ movie.vote_average }}</span>
+          </div>
+          <div class="info">
+            <mat-icon>whatshot</mat-icon>
+            <span>Popularidade: {{ movie.popularity | number:'1.0-0' }}</span>
+          </div>
+          <div class="genres">
+            <mat-chip
+              *ngFor="let genre of movie.genres"
+              color="primary"
+              selected
+            >
+              {{ genre }}
+            </mat-chip>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div
+      class="navigation-buttons bottom-pagination"
+      *ngIf="!isLoading && totalPages > 1"
+    >
+      <button
+        mat-icon-button
+        (click)="goToFirst()"
+        [disabled]="currentPage === 1"
+      >
+        <mat-icon>first_page</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        (click)="goToPrevious()"
+        [disabled]="currentPage === 1"
+      >
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      <button
+        mat-stroked-button
+        class="page-btn"
+        *ngFor="let page of getPages()"
+        [color]="page === currentPage ? 'accent' : undefined"
+        (click)="goToPage(page)"
+      >
+        {{ page }}
+      </button>
+      <button
+        mat-icon-button
+        (click)="goToNext()"
+        [disabled]="currentPage === totalPages"
+      >
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+    </div>
   </div>
 
-  <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
+  <div class="loading-overlay" *ngIf="isLoading">
+    <mat-progress-spinner
+      mode="indeterminate"
+      diameter="48"
+    ></mat-progress-spinner>
+  </div>
+
+  <button class="scroll-top" mat-fab (click)="scrollToTop()" aria-label="Topo">
+    <mat-icon>keyboard_arrow_up</mat-icon>
+  </button>
 </div>
-
-<button class="scroll-top" mat-fab (click)="scrollToTop()" aria-label="Topo">
-  <mat-icon>keyboard_arrow_up</mat-icon>
-</button>

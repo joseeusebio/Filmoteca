@@ -53,15 +53,15 @@ class Keyword(models.Model):
 
 class Movie(models.Model):
     tmdb_id = models.IntegerField(unique=True)
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, db_index=True)
     original_title = models.CharField(max_length=255)
-    vote_average = models.FloatField()
+    vote_average = models.FloatField(db_index=True)
     vote_count = models.IntegerField()
     status = models.CharField(max_length=50)
-    release_date = models.DateField(null=True, blank=True)
+    release_date = models.DateField(null=True, blank=True, db_index=True)
     revenue = models.BigIntegerField()
     runtime = models.IntegerField()
-    adult = models.BooleanField()
+    adult = models.BooleanField(db_index=True)
     backdrop_path = models.CharField(max_length=255, null=True, blank=True)
     poster_path = models.CharField(max_length=255, null=True, blank=True)
     budget = models.BigIntegerField()
@@ -69,7 +69,7 @@ class Movie(models.Model):
     imdb_id = models.CharField(max_length=20, null=True, blank=True)
     original_language = models.CharField(max_length=10)
     overview = models.TextField(null=True, blank=True)
-    popularity = models.FloatField()
+    popularity = models.FloatField(db_index=True)
     tagline = models.TextField(null=True, blank=True)
 
     genres = models.ManyToManyField(Genre)
@@ -77,10 +77,14 @@ class Movie(models.Model):
     production_countries = models.ManyToManyField(ProductionCountry)
     spoken_languages = models.ManyToManyField(SpokenLanguage)
     keywords = models.ManyToManyField(Keyword)
+
     objects = MovieManager()
 
     class Meta:
         db_table = "movie"
+        indexes = [
+            models.Index(fields=["title", "adult"]),
+        ]
 
     def __str__(self):
         return self.title

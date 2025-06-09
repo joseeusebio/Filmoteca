@@ -24,6 +24,9 @@ build-frontend:
 	docker compose build --no-cache frontend
 	docker compose up -d frontend
 
+restart-backend:
+	docker compose restart backend
+
 dev-frontend:
 	docker compose up -d frontend-dev
 

@@ -59,3 +59,10 @@ class MovieDetailSerializer(serializers.ModelSerializer):
     @staticmethod
     def get_backdrop_url(obj):
         return obj.backdrop_url
+    
+
+class FormOptionsSerializer(serializers.Serializer):
+    genres = serializers.ListSerializer(child=serializers.CharField())
+    production_countries = serializers.ListSerializer(child=serializers.CharField())
+    spoken_languages = serializers.ListSerializer(child=serializers.CharField())
+    years = serializers.ListSerializer(child=serializers.IntegerField())

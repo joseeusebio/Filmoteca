@@ -6,7 +6,4 @@ class MovieManager(models.Manager):
             '-release_date',
             '-popularity',
             'title'
-        ).prefetch_related(
-            'genres', 'production_companies', 'production_countries',
-            'spoken_languages', 'keywords'
         )
