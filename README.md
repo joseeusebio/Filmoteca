@@ -59,7 +59,7 @@ O processo de build e importação pode levar **vários minutos**, pois envolve 
    ```bash
    make generate-secret
    ```
-   Copie o valor gerado e substitua no seu arquivo `.env`, com base no `.env.example`.
+   Copie o valor gerado e substitua no seu arquivo `.env` dentro da pasta /backend/dotenf_files, com base no `.env.example`.
 
 3. **Inicie os containers e carregue os dados**
    ```bash
@@ -86,7 +86,7 @@ O processo de build e importação pode levar **vários minutos**, pois envolve 
    ```bash
    python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
    ```
-   Copie a chave para o arquivo `.env`, usando como base o `.env.example`.
+   Copie a chave para o arquivo `.env` dentro da pasta /backend.dotenf_files, usando como base o `.env.example`.
 
 3. **Suba os containers**
    ```bash
