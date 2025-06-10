@@ -18,6 +18,32 @@ Projeto fullstack desenvolvido como parte de um desafio técnico. A aplicação 
 - [Licença](#-licença)
 
 
+
+---
+
+## 🔐 Gerando a SECRET_KEY (venv ou Docker)
+
+Você pode gerar a chave do Django antes de subir os containers de duas formas: com `venv` local ou via Docker.
+
+### ✅ Usando venv local (caso não tenha Docker buildado ainda)
+
+```bash
+python -m venv venv
+source venv/bin/activate  # No Windows: venv\Scripts\activate
+pip install django
+python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+deactivate
+```
+
+### 🐳 Ou usando Docker
+
+```bash
+docker compose run --rm backend python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+```
+
+Copie a chave para o arquivo `.env` dentro da pasta `/backend/dotenv_files`, com base no `.env.example`.
+
+
 ## 📦 Tecnologias utilizadas
 
 - **Backend:** Django, Django REST Framework, PostgreSQL  
