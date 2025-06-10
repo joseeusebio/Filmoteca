@@ -200,15 +200,11 @@ Essa interface permite explorar todos os endpoints disponíveis, parâmetros de 
 
 ### 🔍 Tela de listagem de filmes
 
-```
 ![image](https://github.com/user-attachments/assets/f716cad1-c07b-4ff9-8244-8336a299ff9c)
-```
 
 ### 📄 Tela de detalhes do filme
 
-```
 ![image](https://github.com/user-attachments/assets/114f4a12-cfab-497c-87be-0605b04e3a91)
-```
 
 ## 💻 Como usar a aplicação
 
