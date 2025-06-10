@@ -47,7 +47,7 @@ Copie a chave para o arquivo `.env` dentro da pasta `/backend/dotenv_files`, com
 ## 📦 Tecnologias utilizadas
 
 - **Backend:** Django, Django REST Framework, PostgreSQL  
-- **Frontend:** Angular  
+- **Frontend:** Angular + Angular Material
 - **Ambiente:** Docker + Docker Compose  
 - **Scripts:** Makefile para automação de tarefas  
 - **Outros:** NGINX, CSV Dataset Parser, TMDB Dataset
