@@ -17,4 +17,8 @@ export class MovieService {
   getFormOptions(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}form-options/`);
   }
+
+  getMovieById(id: string | number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}${id}/`);
+  }
 }

@@ -1,0 +1,101 @@
+<div class="header-row">
+  <h1 class="title-link" (click)="goToHome()">🎬 Filmoteca</h1>
+</div>
+
+<div class="movie-detail-wrapper" *ngIf="!isLoading && movie">
+  <div class="movie-header">
+    <div class="backdrop" *ngIf="movie.backdrop_url">
+      <img [src]="movie.backdrop_url" [alt]="movie.title" />
+    </div>
+
+    <div class="movie-info">
+      <h1 class="title">{{ movie.title }}</h1>
+      <p class="tagline" *ngIf="movie.tagline">“{{ movie.tagline }}”</p>
+
+      <div class="metadata">
+        <div class="info">
+          <mat-icon>event</mat-icon>
+          <span>{{ movie.release_date | date }}</span>
+        </div>
+        <div class="info">
+          <mat-icon>schedule</mat-icon>
+          <span>{{ movie.runtime }} min</span>
+        </div>
+        <div class="info">
+          <mat-icon>info</mat-icon>
+          <span>{{ movie.status }}</span>
+        </div>
+        <div class="info">
+          <mat-icon>star</mat-icon>
+          <span>{{ movie.vote_average }} / 10</span>
+        </div>
+      </div>
+
+      <div class="financials">
+        <div class="info" *ngIf="movie.budget">
+          <mat-icon>attach_money</mat-icon>
+          <span>Orçamento: {{ movie.budget | number:'1.0-0' }}</span>
+        </div>
+        <div class="info" *ngIf="movie.revenue">
+          <mat-icon>attach_money</mat-icon>
+          <span>Receita: {{ movie.revenue | number:'1.0-0' }}</span>
+        </div>
+      </div>
+
+      <div class="external-links">
+        <a *ngIf="movie.homepage" [href]="movie.homepage" target="_blank">
+          <mat-icon>link</mat-icon> Site Oficial
+        </a>
+        <a *ngIf="movie.imdb_id" [href]="'https://www.imdb.com/title/' + movie.imdb_id" target="_blank">
+          <mat-icon>movie</mat-icon> IMDb
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="overview-section">
+    <h2>Sinopse</h2>
+    <p>{{ movie.overview }}</p>
+  </div>
+
+  <div class="extra-details-section">
+    <div class="chip-block" *ngIf="movie.genres?.length">
+      <h4><mat-icon>category</mat-icon> Gêneros</h4>
+      <mat-chip *ngFor="let genre of movie.genres" color="primary" selected>
+        {{ genre }}
+      </mat-chip>
+    </div>
+
+    <div class="chip-block" *ngIf="movie.production_companies?.length">
+      <h4><mat-icon>business</mat-icon> Produtoras</h4>
+      <mat-chip *ngFor="let company of movie.production_companies">
+        {{ company }}
+      </mat-chip>
+    </div>
+
+    <div class="chip-block" *ngIf="movie.production_countries?.length">
+      <h4><mat-icon>public</mat-icon> Países</h4>
+      <mat-chip *ngFor="let country of movie.production_countries">
+        {{ country }}
+      </mat-chip>
+    </div>
+
+    <div class="chip-block" *ngIf="movie.spoken_languages?.length">
+      <h4><mat-icon>language</mat-icon> Idiomas</h4>
+      <mat-chip *ngFor="let lang of movie.spoken_languages">
+        {{ lang }}
+      </mat-chip>
+    </div>
+
+    <div class="chip-block" *ngIf="movie.keywords?.length">
+      <h4><mat-icon>key</mat-icon> Palavras-chave</h4>
+      <mat-chip *ngFor="let kw of movie.keywords" color="accent" selected>
+        {{ kw }}
+      </mat-chip>
+    </div>
+  </div>
+</div>
+
+<div class="loading-overlay" *ngIf="isLoading">
+  <mat-progress-spinner mode="indeterminate" diameter="48"></mat-progress-spinner>
+</div>

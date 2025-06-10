@@ -1,11 +1,12 @@
 from rest_framework import viewsets
-from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.filters import OrderingFilter
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models.functions import ExtractYear
+from django.db.models.expressions import RawSQL
 
-from movies.models import Movie, Genre, ProductionCompany, ProductionCountry, Keyword, SpokenLanguage
+from movies.models import Movie, Genre, ProductionCountry, SpokenLanguage
 from movies.serializers import MovieListSerializer, MovieDetailSerializer, FormOptionsSerializer
 from movies.filters.movie_filter import MovieFilter
 from movies.pagination import CustomPageNumberPagination
@@ -14,7 +15,7 @@ from drf_yasg import openapi
 
 class MovieViewSet(viewsets.ReadOnlyModelViewSet):
     pagination_class = CustomPageNumberPagination
-    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_class = MovieFilter
     search_fields = ['title']
     ordering_fields = ['popularity', 'release_date', 'vote_average']
@@ -33,11 +34,15 @@ class MovieViewSet(viewsets.ReadOnlyModelViewSet):
             )
 
         if self.action == 'list':
-            if 'title' in self.request.query_params and self.request.query_params['title'].strip():
-                return qs
-            return qs.prefetch_related('genres')
+            title = self.request.query_params.get('title')
+            if title:
+                qs = qs.annotate(
+                    similarity=RawSQL("similarity(title, %s)", (title,))
+                ).filter(title__icontains=title).order_by('-similarity')
+            else:
+                qs = qs.prefetch_related('genres')
 
-        return Movie.objects.public()
+        return qs
 
     def get_serializer_class(self):
         if self.action == 'retrieve':

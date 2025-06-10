@@ -3,7 +3,7 @@ from movies.models import Movie, Genre, ProductionCompany, ProductionCountry, Sp
 
 
 class MovieFilter(filters.FilterSet):
-    title = filters.CharFilter(field_name="title", lookup_expr="istartswith")
+    title = filters.CharFilter(field_name="title", lookup_expr="icontains")
     vote_average_min = filters.NumberFilter(field_name="vote_average", lookup_expr="gte")
     vote_average_max = filters.NumberFilter(field_name="vote_average", lookup_expr="lte")
     release_date__year = filters.NumberFilter(field_name="release_date", lookup_expr="year")

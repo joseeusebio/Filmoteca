@@ -6,6 +6,7 @@ import {
   DecimalPipe,
 } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule, MatChip } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -28,6 +29,7 @@ import { MovieService } from '../services/movie.service';
     FormsModule,
     DatePipe,
     DecimalPipe,
+    RouterModule,
     MatCardModule,
     MatChipsModule,
     MatChip,
