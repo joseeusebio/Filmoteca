@@ -24,16 +24,12 @@ services:
     env_file:
       - ./backend/dotenv_files/.env
 
-  frontend-dev:
+  frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile.dev
-    container_name: frontend-dev
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
+      dockerfile: Dockerfile
     ports:
-      - "4200:4200"
-    command: npm run start
+      - "80:80"
+    container_name: frontend
     depends_on:
       - backend
