@@ -203,6 +203,12 @@ Essa interface permite explorar todos os endpoints disponíveis, parâmetros de 
 
 ---
 
+## Screensshots
+![image](https://github.com/user-attachments/assets/9d3e31e5-1c56-4135-b879-1fa6165d1ecf)
+![image](https://github.com/user-attachments/assets/869ff623-dc2e-4414-ad59-f2ed361f851b)
+
+
+
 ## 📄 Licença
 
 Este projeto foi desenvolvido exclusivamente para fins avaliativos, conforme instruções do desafio técnico.
