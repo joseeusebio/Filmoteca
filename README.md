@@ -59,7 +59,7 @@ O processo de build e importação pode levar **vários minutos**, pois envolve 
    ```bash
    make generate-secret
    ```
-   Copie o valor gerado e substitua no seu arquivo `.env` dentro da pasta /backend/dotenv_files, com base no `.env.example`.
+   Copie o valor gerado e substitua no seu arquivo `.env`, com base no `.env.example`.
 
 3. **Inicie os containers e carregue os dados**
    ```bash
@@ -86,7 +86,7 @@ O processo de build e importação pode levar **vários minutos**, pois envolve 
    ```bash
    python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
    ```
-   Copie a chave para o arquivo `.env` dentro da pasta /backend/dotenv_files, usando como base o `.env.example`.
+   Copie a chave para o arquivo `.env`, usando como base o `.env.example`.
 
 3. **Suba os containers**
    ```bash
@@ -115,6 +115,9 @@ POSTGRES_PASSWORD=postgres
 POSTGRES_HOST=db
 POSTGRES_PORT=5432
 ```
+
+> ⚠️ Nunca versionar o `.env`! O arquivo `.env` já está incluído no `.gitignore` por padrão.
+
 
 ## 🔄 Fluxo de ingestão de dados
 
@@ -164,6 +167,28 @@ Essa interface permite explorar todos os endpoints disponíveis, parâmetros de 
 
 ---
 
+
+---
+
+## 🖼️ Imagens da aplicação
+
+### 🔍 Tela de listagem de filmes
+
+> Cole aqui o printscreen ou screenshot da tela principal com filtros e cards de filmes.
+
+```
+![Listagem de Filmes](caminho/para/sua-imagem-listagem.png)
+```
+
+### 📄 Tela de detalhes do filme
+
+> Cole aqui o printscreen da página de detalhes de um filme selecionado.
+
+```
+![Detalhes do Filme](caminho/para/sua-imagem-detalhes.png)
+```
+
+
 ## 💻 Como usar a aplicação
 
 ### Frontend
@@ -202,12 +227,6 @@ Essa interface permite explorar todos os endpoints disponíveis, parâmetros de 
 - O dataset foi processado, normalizado e validado para uso eficiente com filtros avançados.
 
 ---
-
-## Screensshots
-![image](https://github.com/user-attachments/assets/9d3e31e5-1c56-4135-b879-1fa6165d1ecf)
-![image](https://github.com/user-attachments/assets/869ff623-dc2e-4414-ad59-f2ed361f851b)
-
-
 
 ## 📄 Licença
 
