@@ -3,7 +3,20 @@
 
 Projeto fullstack desenvolvido como parte de um desafio técnico. A aplicação realiza a ingestão, consulta e visualização de um grande dataset de filmes da base do TMDB.
 
+
 ---
+
+## 📚 Índice
+
+- [Tecnologias utilizadas](#-tecnologias-utilizadas)
+- [Guia de Instalação](#-guia-de-instalação)
+- [Fluxo de ingestão de dados](#-fluxo-de-ingestão-de-dados)
+- [Estrutura do banco de dados](#-estrutura-do-banco-de-dados)
+- [Documentação da API](#-documentação-da-api)
+- [Como usar a aplicação](#-como-usar-a-aplicação)
+- [Decisões técnicas](#-decisões-técnicas)
+- [Licença](#-licença)
+
 
 ## 📦 Tecnologias utilizadas
 
@@ -28,7 +41,7 @@ Este projeto utiliza **Docker** para facilitar a configuração e execução da 
 
 ### ⚠️ Atenção: tempo de build e importação
 
-O processo de build e importação leva em média **30 minutos** para finalizar, pois envolve o download e a importação de **mais de 1 milhão de registros** no banco de dados PostgreSQL. É recomendado aguardar pacientemente até o término do processo.
+O processo de build e importação pode levar **vários minutos**, pois envolve o download e a importação de **mais de 1 milhão de registros** no banco de dados PostgreSQL. É recomendado aguardar pacientemente até o término do processo.
 
 ---
 
@@ -73,7 +86,7 @@ O processo de build e importação leva em média **30 minutos** para finalizar,
    ```bash
    python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
    ```
-   Copie a chave para o arquivo `.env` dentro da pasta /backend/dotenv_files, usando como base o `.env.example`.
+   Copie a chave para o arquivo `.env`, usando como base o `.env.example`.
 
 3. **Suba os containers**
    ```bash
@@ -86,7 +99,22 @@ O processo de build e importação leva em média **30 minutos** para finalizar,
    docker compose exec backend python manage.py import_movies --path=/backend/data/tmdb-movies.csv --chunk=10000 --estimado=1000000
    ```
 
+
 ---
+
+## 🧾 Exemplo de `.env`
+
+Este projeto utiliza variáveis de ambiente armazenadas no arquivo `backend/dotenv_files/.env`. Um exemplo de configuração básica:
+
+```
+SECRET_KEY=sua-chave-secreta-gerada
+DEBUG=True
+POSTGRES_DB=filmoteca
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_HOST=db
+POSTGRES_PORT=5432
+```
 
 ## 🔄 Fluxo de ingestão de dados
 
@@ -126,10 +154,10 @@ A estrutura foi planejada para ser simples, eficiente e compatível com filtros 
 
 ## 📚 Documentação da API
 
-A documentação da API está disponível via **Swagger** e é gerada automaticamente com o pacote `drf-yasg`. Você pode acessá-la em:
+A documentação da API está disponível via **Swagger** e é gerada automaticamente com o pacote `drf-spectacular`. Você pode acessá-la em:
 
 ```
-http://localhost:8005/api/docs/
+http://localhost:8005/api/schema/swagger-ui/
 ```
 
 Essa interface permite explorar todos os endpoints disponíveis, parâmetros de filtro e exemplos de resposta.
