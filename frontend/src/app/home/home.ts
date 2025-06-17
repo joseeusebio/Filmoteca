@@ -22,7 +22,7 @@ import { MovieService } from '../services/movie.service';
   selector: 'app-home',
   standalone: true,
   templateUrl: './home.html',
-  styleUrl: './home.scss',
+  styleUrls: ['./home.scss'],
   imports: [
     NgIf,
     NgFor,
